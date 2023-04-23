@@ -2,6 +2,7 @@ const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = merge(common, {
     mode: 'development',
@@ -11,14 +12,13 @@ module.exports = merge(common, {
     module: {
         rules: [
             {
-                test: /\.s(a|c)ss$/,
-                exclude: /node_modules/,
+                test: /\.(sa|sc|c)ss$/,
                 use: [
                     'style-loader',
                     {
                         loader: 'css-loader',
                         options: {
-                            modules: true,
+                            modules: false,
                             sourceMap: true
                         }
                     },
@@ -42,6 +42,9 @@ module.exports = merge(common, {
         new MiniCssExtractPlugin({
             filename: '[name].css',
         }),
+        new Dotenv({
+            path: './.env',
+        })
     ],
     devServer: {
         port: 3002,
